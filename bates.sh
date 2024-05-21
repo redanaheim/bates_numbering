@@ -1,4 +1,5 @@
 #!/bin/zsh
+ZSH="/bin/zsh"
 BATES_FLAGS="-topleft 10 -bates-pad-to 6 -color darkgrey -outline -linewidth 0.2"
 
 # Create directory with Bates metadata in it
@@ -24,10 +25,11 @@ done
 # For each non-empty pdf, calculate the number of pages and add the Bates command entry to number.sh
 # as well as an index entry to index.txt
 # In addition, add a deletion entry to clear.sh and clear_used.sh
-rm .bates/number.sh .bates/clear_used.sh
-touch .bates/number.sh .bates/clear_used.sh
 echo "PATH\nNAME\nPAGES\nSTART_BATES\nEND_BATES\nNEW_PATH" > .bates/index.txt
-echo "rm .bates/log.txt" > .bates/clear.sh
+echo "#!$ZSH" > .bates/number.sh
+echo "#!$ZSH" > .bates/clear.sh
+echo "rm .bates/log.txt" >> .bates/clear.sh
+echo "#!$ZSH" > .bates/clear_used.sh
 
 current_bates=0
 cat .bates/nonempty_list.txt | while read line
@@ -48,10 +50,13 @@ do
 	new_path="$dir/$new_name"
 	safe_new_path=${(q+)new_path}
 
-	echo "echo Started stamping $safe_line as $current_bates-$end_bates" >> .bates/number.sh
-	echo "cpdf -add-text \"%Bates\" $BATES_FLAGS -bates $current_bates $safe_line -o $safe_new_path" >> .bates/number.sh
-	echo "echo Done stamping $safe_line as $current_bates-$end_bates" >> .bates/number.sh
-	echo "echo $safe_line >> .bates/log.txt" >> .bates/number.sh
+	task_1="echo Started stamping $safe_line as $current_bates-$end_bates"
+	task_2="cpdf -add-text \"%Bates\" $BATES_FLAGS -bates $current_bates $safe_line -o $safe_new_path"
+	task_3="echo Done stamping $safe_line as $current_bates-$end_bates"
+	task_4="echo $safe_line >> .bates/log.txt"
+
+	echo "$task_1 && $task_2 && $task_3 && $task_4" >> .bates/number.sh
+
 	echo "rm $safe_line" >> .bates/clear_used.sh 
 	echo "rm $safe_new_path" >> .bates/clear.sh 
 
