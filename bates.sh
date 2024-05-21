@@ -22,9 +22,9 @@ done
 
 # For each non-empty pdf, calculate the number of pages and add the Bates command entry to number.sh
 # as well as an index entry to index.txt
-# In addition, add a deletion entry to clear.sh
-rm .bates/number.sh
-touch .bates/number.sh
+# In addition, add a deletion entry to clear.sh and clear_used.sh
+rm .bates/number.sh .bates/clear_used.sh
+touch .bates/number.sh .bates/clear_used.sh
 echo "PATH\nNAME\nPAGES\nSTART_BATES\nEND_BATES\nNEW_PATH" > .bates/index.txt
 echo "rm .bates/log.txt" > .bates/clear.sh
 
@@ -49,6 +49,7 @@ do
 	echo "cpdf -add-text \"%Bates\" $BATES_FLAGS -bates $current_bates $safe_line -o $safe_new_path" >> .bates/number.sh
 	echo "echo Done stamping $safe_line as $current_bates-$end_bates" >> .bates/number.sh
 	echo "echo $safe_line >> .bates/log.txt" >> .bates/number.sh
+	echo "rm $safe_line" >> .bates/clear_used.sh 
 	echo "rm $safe_new_path" >> .bates/clear.sh 
 
 	index=.bates/index.txt
