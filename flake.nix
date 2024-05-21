@@ -13,7 +13,7 @@
   {
     devShells = {
 	default = pkgs.mkShellNoCC {
-		packages = [ pkgs.ocamlPackages.cpdf ];
+		packages = [ pkgs.ocamlPackages.cpdf pkgs.parallel ];
 	};
     };
   }
