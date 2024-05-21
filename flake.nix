@@ -1,5 +1,5 @@
 {
-  description = "A PyTorch-based thing that is definitely not a transformer";
+  description = "A zsh script to create a directory which enables you to bates stamp a lot of pdf documents in a folder";
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils/b1d9ab70662946ef0850d488da1c9019f3a9752a";
