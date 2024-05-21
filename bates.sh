@@ -1,3 +1,4 @@
+#!/bin/zsh
 BATES_FLAGS="-topleft 10 -bates-pad-to 6 -color darkgrey -outline -linewidth 0.2"
 
 # Create directory with Bates metadata in it
@@ -33,12 +34,14 @@ cat .bates/nonempty_list.txt | while read line
 do
 	pages=$(cpdf -pages $line)
 	end_bates=$((current_bates + pages - 1))
+	padded_current_bates=$(printf "%06d" $current_bates)
+	padded_end_bates=$(printf "%06d" $end_bates)
 
 	safe_line=${(q+)line}
 
-	new_name="$current_bates-$end_bates.pdf"
+	new_name="$padded_current_bates-$padded_end_bates.pdf"
 	if [ "$end_bates" = "$current_bates" ]; then
-		new_name="$current_bates.pdf"
+		new_name="$padded_current_bates.pdf"
 	fi
 
 	dir=$(dirname $line)
