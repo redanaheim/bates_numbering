@@ -33,9 +33,16 @@ echo "#!$ZSH" > .bates/clear_used.sh
 
 current_bates=$1
 echo "Starting at $current_bates..."
-cat .bates/nonempty_list.txt | while read line
+cat .bates/pdf_list.txt | while read line
 do
-	pages=$(cpdf -pages $line)
+	size=$(stat --printf="%s" $line)
+	pages=0
+	if [ "$size" = "0" ]; then
+		true
+	else
+		pages=$(cpdf -pages $line)
+	fi
+
 	end_bates=$((current_bates + pages - 1))
 	padded_current_bates=$(printf "%06d" $current_bates)
 	padded_end_bates=$(printf "%06d" $end_bates)
@@ -52,6 +59,14 @@ do
 	safe_new_path=${(q+)new_path}
 
 	task_1="echo Started stamping $safe_line as $current_bates-$end_bates"
+
+	task_2=""
+	if [ "$size" = "0" ]; then
+		task_2="cp $safe_line $safe_new_path"
+	else
+		task_2="cpdf -add-text \"%Bates\" $BATES_FLAGS -bates $current_bates $safe_line -o $safe_new_path"
+	fi
+
 	task_2="cpdf -add-text \"%Bates\" $BATES_FLAGS -bates $current_bates $safe_line -o $safe_new_path"
 	task_3="echo Done stamping $safe_line as $current_bates-$end_bates"
 	task_4="echo $safe_line >> .bates/log.txt"
