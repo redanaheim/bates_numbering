@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 ZSH="/usr/bin/env zsh"
-BATES_FLAGS="-topleft 10 -bates-pad-to 6 -color 0.011 -linewidth 0.2"
+BATES_FLAGS="-topleft 50 10 -bates-pad-to 6 -color 0.011 -linewidth 0.2"
 
 # Create directory with Bates metadata in it
 mkdir -p .bates
