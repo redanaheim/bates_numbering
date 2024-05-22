@@ -67,7 +67,6 @@ do
 		task_2="cpdf -add-text \"%Bates\" $BATES_FLAGS -bates $current_bates $safe_line -o $safe_new_path"
 	fi
 
-	task_2="cpdf -add-text \"%Bates\" $BATES_FLAGS -bates $current_bates $safe_line -o $safe_new_path"
 	task_3="echo Done stamping $safe_line as $current_bates-$end_bates"
 	task_4="echo $safe_line >> .bates/log.txt"
 
