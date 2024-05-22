@@ -36,7 +36,7 @@ echo "Starting at $current_bates..."
 cat .bates/pdf_list.txt | while read line
 do
 	size=$(stat --printf="%s" $line)
-	pages=0
+	pages=1
 	if [ "$size" = "0" ]; then
 		true
 	else
