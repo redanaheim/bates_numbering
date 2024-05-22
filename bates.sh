@@ -1,5 +1,5 @@
-#!/bin/zsh
-ZSH="/bin/zsh"
+#!/usr/bin/env zsh
+ZSH="/usr/bin/env zsh"
 BATES_FLAGS="-topleft 10 -bates-pad-to 6 -color 0.011 -linewidth 0.2"
 
 # Create directory with Bates metadata in it
@@ -31,7 +31,8 @@ echo "#!$ZSH" > .bates/clear.sh
 echo "rm .bates/log.txt" >> .bates/clear.sh
 echo "#!$ZSH" > .bates/clear_used.sh
 
-current_bates=0
+current_bates=$1
+echo "Starting at $current_bates..."
 cat .bates/nonempty_list.txt | while read line
 do
 	pages=$(cpdf -pages $line)
